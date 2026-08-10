@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as CoursesIndexRouteImport } from './routes/courses.index'
 import { Route as JobsIndexRouteImport } from './routes/jobs.index'
 import { Route as JobsSlugRouteImport } from './routes/jobs.$slug'
 import { Route as ScholarshipsIndexRouteImport } from './routes/scholarships.index'
@@ -24,6 +25,11 @@ const IndexRoute = IndexRouteImport.update({
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CoursesIndexRoute = CoursesIndexRouteImport.update({
+  id: '/courses/',
+  path: '/courses/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const JobsIndexRoute = JobsIndexRouteImport.update({
@@ -52,6 +58,7 @@ export interface FileRoutesByFullPath {
   '/services': typeof ServicesRoute
   '/jobs/$slug': typeof JobsSlugRoute
   '/scholarships/$slug': typeof ScholarshipsSlugRoute
+  '/courses/': typeof CoursesIndexRoute
   '/jobs/': typeof JobsIndexRoute
   '/scholarships/': typeof ScholarshipsIndexRoute
 }
@@ -60,6 +67,7 @@ export interface FileRoutesByTo {
   '/services': typeof ServicesRoute
   '/jobs/$slug': typeof JobsSlugRoute
   '/scholarships/$slug': typeof ScholarshipsSlugRoute
+  '/courses': typeof CoursesIndexRoute
   '/jobs': typeof JobsIndexRoute
   '/scholarships': typeof ScholarshipsIndexRoute
 }
@@ -69,6 +77,7 @@ export interface FileRoutesById {
   '/services': typeof ServicesRoute
   '/jobs/$slug': typeof JobsSlugRoute
   '/scholarships/$slug': typeof ScholarshipsSlugRoute
+  '/courses/': typeof CoursesIndexRoute
   '/jobs/': typeof JobsIndexRoute
   '/scholarships/': typeof ScholarshipsIndexRoute
 }
@@ -79,6 +88,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/jobs/$slug'
     | '/scholarships/$slug'
+    | '/courses/'
     | '/jobs/'
     | '/scholarships/'
   fileRoutesByTo: FileRoutesByTo
@@ -87,6 +97,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/jobs/$slug'
     | '/scholarships/$slug'
+    | '/courses'
     | '/jobs'
     | '/scholarships'
   id:
@@ -95,6 +106,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/jobs/$slug'
     | '/scholarships/$slug'
+    | '/courses/'
     | '/jobs/'
     | '/scholarships/'
   fileRoutesById: FileRoutesById
@@ -104,6 +116,7 @@ export interface RootRouteChildren {
   ServicesRoute: typeof ServicesRoute
   JobsSlugRoute: typeof JobsSlugRoute
   ScholarshipsSlugRoute: typeof ScholarshipsSlugRoute
+  CoursesIndexRoute: typeof CoursesIndexRoute
   JobsIndexRoute: typeof JobsIndexRoute
   ScholarshipsIndexRoute: typeof ScholarshipsIndexRoute
 }
@@ -122,6 +135,13 @@ declare module '@tanstack/react-router' {
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/courses/': {
+      id: '/courses/'
+      path: '/courses'
+      fullPath: '/courses/'
+      preLoaderRoute: typeof CoursesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/jobs/': {
@@ -160,9 +180,20 @@ const rootRouteChildren: RootRouteChildren = {
   ServicesRoute: ServicesRoute,
   JobsSlugRoute: JobsSlugRoute,
   ScholarshipsSlugRoute: ScholarshipsSlugRoute,
+  CoursesIndexRoute: CoursesIndexRoute,
   JobsIndexRoute: JobsIndexRoute,
   ScholarshipsIndexRoute: ScholarshipsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

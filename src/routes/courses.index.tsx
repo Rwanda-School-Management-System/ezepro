@@ -9,7 +9,7 @@ import { CourseCard } from "@/components/site/cards";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-export const Route = createFileRoute("/courses")({
+export const Route = createFileRoute("/courses/")({
   head: () => ({
     meta: [
       { title: "Online Courses in Rwanda | Learn Web, Design & Digital Skills" },
