@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as CoursesIndexRouteImport } from './routes/courses.index'
+import { Route as CoursesSlugRouteImport } from './routes/courses.$slug'
 import { Route as JobsIndexRouteImport } from './routes/jobs.index'
 import { Route as JobsSlugRouteImport } from './routes/jobs.$slug'
 import { Route as ScholarshipsIndexRouteImport } from './routes/scholarships.index'
@@ -30,6 +31,11 @@ const ServicesRoute = ServicesRouteImport.update({
 const CoursesIndexRoute = CoursesIndexRouteImport.update({
   id: '/courses/',
   path: '/courses/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CoursesSlugRoute = CoursesSlugRouteImport.update({
+  id: '/courses/$slug',
+  path: '/courses/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const JobsIndexRoute = JobsIndexRouteImport.update({
@@ -56,6 +62,7 @@ const ScholarshipsSlugRoute = ScholarshipsSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/services': typeof ServicesRoute
+  '/courses/$slug': typeof CoursesSlugRoute
   '/jobs/$slug': typeof JobsSlugRoute
   '/scholarships/$slug': typeof ScholarshipsSlugRoute
   '/courses/': typeof CoursesIndexRoute
@@ -65,6 +72,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/services': typeof ServicesRoute
+  '/courses/$slug': typeof CoursesSlugRoute
   '/jobs/$slug': typeof JobsSlugRoute
   '/scholarships/$slug': typeof ScholarshipsSlugRoute
   '/courses': typeof CoursesIndexRoute
@@ -75,6 +83,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/services': typeof ServicesRoute
+  '/courses/$slug': typeof CoursesSlugRoute
   '/jobs/$slug': typeof JobsSlugRoute
   '/scholarships/$slug': typeof ScholarshipsSlugRoute
   '/courses/': typeof CoursesIndexRoute
@@ -86,6 +95,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/services'
+    | '/courses/$slug'
     | '/jobs/$slug'
     | '/scholarships/$slug'
     | '/courses/'
@@ -95,6 +105,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/services'
+    | '/courses/$slug'
     | '/jobs/$slug'
     | '/scholarships/$slug'
     | '/courses'
@@ -104,6 +115,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/services'
+    | '/courses/$slug'
     | '/jobs/$slug'
     | '/scholarships/$slug'
     | '/courses/'
@@ -114,6 +126,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ServicesRoute: typeof ServicesRoute
+  CoursesSlugRoute: typeof CoursesSlugRoute
   JobsSlugRoute: typeof JobsSlugRoute
   ScholarshipsSlugRoute: typeof ScholarshipsSlugRoute
   CoursesIndexRoute: typeof CoursesIndexRoute
@@ -142,6 +155,13 @@ declare module '@tanstack/react-router' {
       path: '/courses'
       fullPath: '/courses/'
       preLoaderRoute: typeof CoursesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/courses/$slug': {
+      id: '/courses/$slug'
+      path: '/courses/$slug'
+      fullPath: '/courses/$slug'
+      preLoaderRoute: typeof CoursesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/jobs/': {
@@ -178,6 +198,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ServicesRoute: ServicesRoute,
+  CoursesSlugRoute: CoursesSlugRoute,
   JobsSlugRoute: JobsSlugRoute,
   ScholarshipsSlugRoute: ScholarshipsSlugRoute,
   CoursesIndexRoute: CoursesIndexRoute,
@@ -187,13 +208,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
