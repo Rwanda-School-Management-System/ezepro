@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as ApplicationsRouteImport } from './routes/applications'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as FaqRouteImport } from './routes/faq'
 import { Route as RepairRouteImport } from './routes/repair'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
@@ -42,6 +43,11 @@ const ApplicationsRoute = ApplicationsRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RepairRoute = RepairRouteImport.update({
@@ -100,6 +106,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/applications': typeof ApplicationsRoute
   '/contact': typeof ContactRoute
+  '/faq': typeof FaqRoute
   '/repair': typeof RepairRoute
   '/services': typeof ServicesRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -116,6 +123,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/applications': typeof ApplicationsRoute
   '/contact': typeof ContactRoute
+  '/faq': typeof FaqRoute
   '/repair': typeof RepairRoute
   '/services': typeof ServicesRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -133,6 +141,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/applications': typeof ApplicationsRoute
   '/contact': typeof ContactRoute
+  '/faq': typeof FaqRoute
   '/repair': typeof RepairRoute
   '/services': typeof ServicesRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -151,6 +160,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/applications'
     | '/contact'
+    | '/faq'
     | '/repair'
     | '/services'
     | '/blog/$slug'
@@ -167,6 +177,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/applications'
     | '/contact'
+    | '/faq'
     | '/repair'
     | '/services'
     | '/blog/$slug'
@@ -183,6 +194,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/applications'
     | '/contact'
+    | '/faq'
     | '/repair'
     | '/services'
     | '/blog/$slug'
@@ -200,6 +212,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   ApplicationsRoute: typeof ApplicationsRoute
   ContactRoute: typeof ContactRoute
+  FaqRoute: typeof FaqRoute
   RepairRoute: typeof RepairRoute
   ServicesRoute: typeof ServicesRoute
   BlogSlugRoute: typeof BlogSlugRoute
@@ -240,6 +253,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/repair': {
@@ -320,6 +340,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   ApplicationsRoute: ApplicationsRoute,
   ContactRoute: ContactRoute,
+  FaqRoute: FaqRoute,
   RepairRoute: RepairRoute,
   ServicesRoute: ServicesRoute,
   BlogSlugRoute: BlogSlugRoute,
