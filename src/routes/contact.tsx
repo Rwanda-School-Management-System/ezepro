@@ -47,7 +47,13 @@ function ContactPage() {
       return;
     }
     setLoading(true);
-    const { error } = await supabase.from("contact_messages").insert(parsed.data);
+    const { error } = await supabase.from("contact_messages").insert({
+      name: parsed.data.name,
+      email: parsed.data.email,
+      message: parsed.data.message,
+      phone: parsed.data.phone ?? null,
+      subject: parsed.data.subject ?? null,
+    });
     setLoading(false);
     if (error) {
       toast.error("Could not send your message. Please try WhatsApp.");
