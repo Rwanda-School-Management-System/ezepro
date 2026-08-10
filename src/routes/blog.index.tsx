@@ -9,7 +9,7 @@ import { PostCard } from "@/components/site/cards";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-export const Route = createFileRoute("/blog")({
+export const Route = createFileRoute("/blog/")({
   head: () => ({
     meta: [
       { title: "Blog | Tech, Career & Scholarship Guides — Eze Pro Developer" },
