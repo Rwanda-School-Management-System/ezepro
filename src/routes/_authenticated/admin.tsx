@@ -38,7 +38,8 @@ function PublishList({ table, titleKey, flag }: { table: ContentTable; titleKey:
   const queryClient = useQueryClient();
 
   async function toggle(id: string, value: boolean) {
-    const { error } = await supabase.from(table).update({ [flag]: value }).eq("id", id);
+    const patch = { [flag]: value } as never;
+    const { error } = await supabase.from(table).update(patch).eq("id", id);
     if (error) {
       toast.error("Update failed — admin access required.");
       return;
