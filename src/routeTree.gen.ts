@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as ApplicationsRouteImport } from './routes/applications'
 import { Route as AuthRouteImport } from './routes/auth'
@@ -19,6 +20,7 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RepairRouteImport } from './routes/repair'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as CoursesIndexRouteImport } from './routes/courses.index'
@@ -31,6 +33,10 @@ import { Route as ScholarshipsSlugRouteImport } from './routes/scholarships.$slu
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -77,6 +83,11 @@ const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const BlogIndexRoute = BlogIndexRouteImport.update({
   id: '/blog/',
@@ -130,6 +141,7 @@ export interface FileRoutesByFullPath {
   '/repair': typeof RepairRoute
   '/services': typeof ServicesRoute
   '/terms': typeof TermsRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/jobs/$slug': typeof JobsSlugRoute
@@ -150,6 +162,7 @@ export interface FileRoutesByTo {
   '/repair': typeof RepairRoute
   '/services': typeof ServicesRoute
   '/terms': typeof TermsRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/jobs/$slug': typeof JobsSlugRoute
@@ -162,6 +175,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/applications': typeof ApplicationsRoute
   '/auth': typeof AuthRoute
@@ -171,6 +185,7 @@ export interface FileRoutesById {
   '/repair': typeof RepairRoute
   '/services': typeof ServicesRoute
   '/terms': typeof TermsRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/jobs/$slug': typeof JobsSlugRoute
@@ -193,6 +208,7 @@ export interface FileRouteTypes {
     | '/repair'
     | '/services'
     | '/terms'
+    | '/dashboard'
     | '/blog/$slug'
     | '/courses/$slug'
     | '/jobs/$slug'
@@ -213,6 +229,7 @@ export interface FileRouteTypes {
     | '/repair'
     | '/services'
     | '/terms'
+    | '/dashboard'
     | '/blog/$slug'
     | '/courses/$slug'
     | '/jobs/$slug'
@@ -224,6 +241,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/about'
     | '/applications'
     | '/auth'
@@ -233,6 +251,7 @@ export interface FileRouteTypes {
     | '/repair'
     | '/services'
     | '/terms'
+    | '/_authenticated/dashboard'
     | '/blog/$slug'
     | '/courses/$slug'
     | '/jobs/$slug'
@@ -245,6 +264,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   ApplicationsRoute: typeof ApplicationsRoute
   AuthRoute: typeof AuthRoute
@@ -271,6 +291,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -336,6 +363,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/blog/': {
       id: '/blog/'
       path: '/blog'
@@ -395,8 +429,20 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   ApplicationsRoute: ApplicationsRoute,
   AuthRoute: AuthRoute,
