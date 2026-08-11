@@ -1,0 +1,194 @@
+{
+  "version": 1,
+  "sdk_version": "0.26.2",
+  "path": "/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://gcgklbrhjbwvnndodjtf.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "eze-pro-developer",
+      "version": "0.1.0",
+      "title": "Eze Pro Developer"
+    },
+    "tools": [
+      {
+        "name": "search_jobs",
+        "title": "Search jobs",
+        "description": "Search published job listings by keyword, category, job type or location.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "query": {
+              "description": "Keyword matched against job title or company.",
+              "type": "string"
+            },
+            "category": {
+              "description": "Job category filter.",
+              "type": "string"
+            },
+            "job_type": {
+              "description": "Job type, e.g. Full-time, Internship.",
+              "type": "string"
+            },
+            "location": {
+              "description": "Location filter.",
+              "type": "string"
+            },
+            "limit": {
+              "description": "Max results (default 10).",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "search_scholarships",
+        "title": "Search scholarships",
+        "description": "Search published scholarship opportunities by keyword, country or study level.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "query": {
+              "description": "Keyword matched against scholarship title or provider.",
+              "type": "string"
+            },
+            "country": {
+              "description": "Host country filter.",
+              "type": "string"
+            },
+            "level": {
+              "description": "Study level, e.g. Bachelor, Masters, PhD.",
+              "type": "string"
+            },
+            "limit": {
+              "description": "Max results (default 10).",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_courses",
+        "title": "List courses",
+        "description": "List published online courses offered by Eze Pro Developer.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "query": {
+              "description": "Keyword matched against course title.",
+              "type": "string"
+            },
+            "limit": {
+              "description": "Max results (default 20).",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_my_requests",
+        "title": "List my requests",
+        "description": "List the signed-in user's service requests and computer repair requests with their status.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "create_service_request",
+        "title": "Create service request",
+        "description": "Submit a new service request (job/scholarship application help, web design, etc.) for the signed-in user.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "full_name": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 100,
+              "description": "Requester's full name."
+            },
+            "email": {
+              "type": "string",
+              "maxLength": 255,
+              "format": "email",
+              "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
+              "description": "Contact email."
+            },
+            "service_needed": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 150,
+              "description": "The service being requested."
+            },
+            "description": {
+              "description": "Details about the request.",
+              "type": "string",
+              "maxLength": 2000
+            },
+            "phone": {
+              "description": "Contact phone number.",
+              "type": "string",
+              "maxLength": 30
+            },
+            "preferred_contact": {
+              "description": "Preferred contact channel, e.g. Email, WhatsApp.",
+              "type": "string",
+              "maxLength": 30
+            }
+          },
+          "required": [
+            "full_name",
+            "email",
+            "service_needed"
+          ]
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
