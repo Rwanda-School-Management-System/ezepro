@@ -26,9 +26,9 @@ const SERVICES = [
 ];
 
 export const Route = createFileRoute("/applications")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    service: typeof search["service"] === "string" ? search["service"].slice(0, 150) : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>): { service?: string } =>
+    typeof search["service"] === "string" ? { service: search["service"].slice(0, 150) } : {},
+
   head: () => ({
     meta: [
       { title: "Application Center | We Apply For Jobs & Scholarships For You" },
