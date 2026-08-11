@@ -12,6 +12,12 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const Route = createFileRoute("/auth")({
+  validateSearch: (search: Record<string, unknown>): { next?: string } => {
+    const raw = search["next"];
+    return typeof raw === "string" && raw.startsWith("/") && !raw.startsWith("//")
+      ? { next: raw }
+      : {};
+  },
   head: () => ({
     meta: [
       { title: "Sign in or create an account — Eze Pro Developer" },
@@ -35,13 +41,23 @@ const credentials = z.object({
 
 function AuthPage() {
   const navigate = useNavigate();
+  const { next } = Route.useSearch();
   const [loading, setLoading] = useState(false);
+
+  function goNext(replace = false) {
+    if (next) {
+      window.location.href = next;
+      return;
+    }
+    navigate({ to: "/dashboard", replace });
+  }
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/dashboard", replace: true });
+      if (data.session) goNext(true);
     });
-  }, [navigate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   async function handleSignIn(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -58,7 +74,7 @@ function AuthPage() {
       return;
     }
     toast.success("Welcome back!");
-    navigate({ to: "/dashboard" });
+    goNext();
   }
 
   async function handleSignUp(e: React.FormEvent<HTMLFormElement>) {
@@ -73,7 +89,10 @@ function AuthPage() {
     setLoading(true);
     const { data, error } = await supabase.auth.signUp({
       ...parsed.data,
-      options: { emailRedirectTo: window.location.origin, data: { full_name: fullName } },
+      options: {
+        emailRedirectTo: next ? `${window.location.origin}${next}` : window.location.origin,
+        data: { full_name: fullName },
+      },
     });
     setLoading(false);
     if (error) {
@@ -82,20 +101,22 @@ function AuthPage() {
     }
     if (data.session) {
       toast.success("Account created!");
-      navigate({ to: "/dashboard" });
+      goNext();
       return;
     }
     toast.success("Check your email to confirm your account.");
   }
 
   async function handleGoogle() {
-    const result = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin });
+    const result = await lovable.auth.signInWithOAuth("google", {
+      redirect_uri: next ? `${window.location.origin}${next}` : window.location.origin,
+    });
     if (result.error) {
       toast.error("Google sign-in failed. Please try again.");
       return;
     }
     if (result.redirected) return;
-    navigate({ to: "/dashboard" });
+    goNext();
   }
 
   return (
