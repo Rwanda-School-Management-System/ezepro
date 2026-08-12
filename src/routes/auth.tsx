@@ -84,6 +84,7 @@ function AuthPage() {
   const { next } = Route.useSearch();
 
   const [loading, setLoading] = useState(false);
+  const [loc, setLoc] = useState<RwandaLocation>(EMPTY_LOCATION);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [showResetPassword, setShowResetPassword] = useState(false);
 
