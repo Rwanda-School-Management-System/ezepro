@@ -225,3 +225,35 @@
 @utility shadow-lift {
   box-shadow: var(--shadow-lift);
 }
+
+@utility bg-aurora {
+  background-color: var(--navy);
+  background-image:
+    radial-gradient(45rem 30rem at 15% 20%, color-mix(in oklab, var(--brand) 55%, transparent), transparent 60%),
+    radial-gradient(40rem 28rem at 85% 15%, color-mix(in oklab, var(--gold) 45%, transparent), transparent 60%),
+    radial-gradient(42rem 30rem at 75% 85%, color-mix(in oklab, var(--leaf) 50%, transparent), transparent 60%),
+    radial-gradient(38rem 26rem at 25% 90%, color-mix(in oklab, var(--navy) 80%, var(--brand)), transparent 62%);
+  background-size: 200% 200%;
+  animation: aurora-shift 22s ease-in-out infinite alternate;
+}
+
+@keyframes aurora-shift {
+  0% {
+    background-position: 0% 50%, 100% 0%, 100% 100%, 0% 100%;
+    filter: hue-rotate(0deg);
+  }
+  50% {
+    background-position: 50% 0%, 50% 100%, 0% 50%, 100% 0%;
+    filter: hue-rotate(25deg);
+  }
+  100% {
+    background-position: 100% 50%, 0% 100%, 20% 0%, 80% 40%;
+    filter: hue-rotate(-20deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-aurora {
+    animation: none;
+  }
+}

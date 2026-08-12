@@ -310,37 +310,58 @@ export type Database = {
       }
       profiles: {
         Row: {
+          age: number | null
           avatar_url: string | null
           bio: string | null
+          cell: string | null
           created_at: string
+          district: string | null
           email: string | null
           full_name: string | null
+          gender: string | null
           id: string
           phone: string | null
+          province: string | null
+          sector: string | null
           updated_at: string
           username: string | null
+          village: string | null
         }
         Insert: {
+          age?: number | null
           avatar_url?: string | null
           bio?: string | null
+          cell?: string | null
           created_at?: string
+          district?: string | null
           email?: string | null
           full_name?: string | null
+          gender?: string | null
           id: string
           phone?: string | null
+          province?: string | null
+          sector?: string | null
           updated_at?: string
           username?: string | null
+          village?: string | null
         }
         Update: {
+          age?: number | null
           avatar_url?: string | null
           bio?: string | null
+          cell?: string | null
           created_at?: string
+          district?: string | null
           email?: string | null
           full_name?: string | null
+          gender?: string | null
           id?: string
           phone?: string | null
+          province?: string | null
+          sector?: string | null
           updated_at?: string
           username?: string | null
+          village?: string | null
         }
         Relationships: []
       }
@@ -394,6 +415,38 @@ export type Database = {
           user_id?: string | null
         }
         Relationships: []
+      }
+      rwanda_locations: {
+        Row: {
+          created_at: string
+          id: number
+          level: string
+          name: string
+          parent_id: number | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          level: string
+          name: string
+          parent_id?: number | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          level?: string
+          name?: string
+          parent_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rwanda_locations_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "rwanda_locations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       scholarships: {
         Row: {

@@ -1,4 +1,3 @@
-```tsx
 import { useEffect, useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
@@ -226,11 +225,8 @@ function AuthPage() {
       .trim()
       .slice(0, 100);
 
-    const province = String(fd.get("province") ?? "").trim();
-    const district = String(fd.get("district") ?? "").trim();
-    const sector = String(fd.get("sector") ?? "").trim();
-    const cell = String(fd.get("cell") ?? "").trim();
-    const village = String(fd.get("village") ?? "").trim();
+    const { province, district, sector, cell, village } = loc;
+
     const phone = String(fd.get("phone") ?? "").trim();
 
     const ageValue = Number(fd.get("age"));
@@ -544,8 +540,10 @@ function AuthPage() {
   }
 
   return (
-    <div className="container-page flex min-h-[80vh] items-center justify-center py-16">
-      <div className="w-full max-w-2xl rounded-2xl border border-border bg-card p-6 shadow-lift sm:p-8">
+    <div className="relative flex min-h-[85vh] items-center justify-center overflow-hidden px-4 py-16">
+      <div className="bg-aurora absolute inset-0 -z-10" aria-hidden="true" />
+      <div className="w-full max-w-2xl rounded-2xl border border-white/15 bg-card/90 p-6 shadow-lift backdrop-blur-xl sm:p-8">
+
         <h1 className="text-center font-display text-2xl font-bold">
           Welcome to {SITE.shortName}
         </h1>
@@ -649,71 +647,10 @@ function AuthPage() {
                 />
               </div>
 
+              <RwandaLocationPicker value={loc} onChange={setLoc} idPrefix="su" />
+
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <div className="grid gap-2">
-                  <Label htmlFor="su-province">
-                    Province
-                  </Label>
 
-                  <Input
-                    id="su-province"
-                    name="province"
-                    placeholder="e.g. Eastern Province"
-                    required
-                  />
-                </div>
-
-                <div className="grid gap-2">
-                  <Label htmlFor="su-district">
-                    District
-                  </Label>
-
-                  <Input
-                    id="su-district"
-                    name="district"
-                    placeholder="e.g. Nyagatare"
-                    required
-                  />
-                </div>
-
-                <div className="grid gap-2">
-                  <Label htmlFor="su-sector">
-                    Sector
-                  </Label>
-
-                  <Input
-                    id="su-sector"
-                    name="sector"
-                    placeholder="Sector"
-                    required
-                  />
-                </div>
-
-                <div className="grid gap-2">
-                  <Label htmlFor="su-cell">
-                    Cell
-                  </Label>
-
-                  <Input
-                    id="su-cell"
-                    name="cell"
-                    placeholder="Cell"
-                    required
-                  />
-                </div>
-
-                <div className="grid gap-2 sm:col-span-2">
-                  <Label htmlFor="su-village">
-                    Village
-                  </Label>
-
-                  <Input
-                    id="su-village"
-                    name="village"
-                    placeholder="Village"
-                    required
-                  />
-                </div>
 
                 <div className="grid gap-2">
                   <Label htmlFor="su-phone">
@@ -816,4 +753,3 @@ function AuthPage() {
     </div>
   );
 }
-```
