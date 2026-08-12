@@ -9,6 +9,8 @@ import { SITE } from "@/lib/site";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { RwandaLocationPicker } from "@/components/site/rwanda-location-picker";
+import { EMPTY_LOCATION, type RwandaLocation } from "@/data/rwanda";
 import {
   Tabs,
   TabsContent,
