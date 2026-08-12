@@ -1,5 +1,4 @@
 import { auth, defineMcp } from "@lovable.dev/mcp-js";
-import type { AnyToolDefinition } from "@lovable.dev/mcp-js";
 import searchJobs from "./tools/search-jobs";
 import searchScholarships from "./tools/search-scholarships";
 import listCourses from "./tools/list-courses";
@@ -18,5 +17,5 @@ export default defineMcp({
     issuer: `https://${projectRef}.supabase.co/auth/v1`,
     acceptedAudiences: "authenticated",
   }),
-  tools: [searchJobs, searchScholarships, listCourses, listMyRequests, createServiceRequest] as unknown as AnyToolDefinition[],
+  tools: [searchJobs, searchScholarships, listCourses, listMyRequests, createServiceRequest] as never,
 });

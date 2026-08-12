@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
+import { AdminLoginLink } from "@/components/layout/admin-login-link";
 import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
@@ -80,15 +81,22 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Eze Pro Developer — Tech, learning and opportunities" },
+      {
+        name: "description",
+        content:
+          "Rwanda-based technology company: web and app development, computer repair, online courses, jobs and scholarships.",
+      },
+      { name: "author", content: "Eze Pro Developer" },
+      { property: "og:title", content: "Eze Pro Developer" },
+      {
+        property: "og:description",
+        content: "Technology, education and opportunities in one place.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
+
     links: [
       {
         rel: "stylesheet",
@@ -129,6 +137,8 @@ function RootComponent() {
           <Outlet />
         </main>
         <SiteFooter />
+        <AdminLoginLink />
+
       </div>
       <Toaster position="top-center" richColors />
     </QueryClientProvider>
