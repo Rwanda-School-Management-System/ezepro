@@ -251,6 +251,12 @@ function AuthPage() {
       return;
     }
 
+    if (!province || !district || !sector || !cell || !village) {
+      toast.error("Select your full location: province, district, sector, cell and village.");
+      return;
+    }
+
+
     setLoading(true);
 
     const { data, error } = await supabase.auth.signUp({
