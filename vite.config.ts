@@ -9,12 +9,6 @@ export default defineConfig({
   tanstackStart: {
     spa: {
       enabled: true,
-      prerender: {
-        // Generate the SPA shell without crawling/prerendering
-        // the application's other routes.
-        crawlLinks: false,
-        retryCount: 0,
-      },
     },
 
     server: {
