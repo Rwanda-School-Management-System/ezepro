@@ -257,3 +257,57 @@
     animation: none;
   }
 }
+
+:root {
+  --heart-1: oklch(0.68 0.22 10);
+  --heart-2: oklch(0.72 0.19 350);
+  --heart-3: oklch(0.86 0.165 92);
+  --heart-4: oklch(0.7 0.15 231);
+  --tree-bark: oklch(0.42 0.06 55);
+  --tree-bark-dark: oklch(0.3 0.05 50);
+  --tree-leaf-1: oklch(0.55 0.14 150);
+  --tree-leaf-2: oklch(0.65 0.16 140);
+  --tree-leaf-3: oklch(0.45 0.11 160);
+  --tree-rope: oklch(0.72 0.08 75);
+}
+@theme inline {
+  --color-heart-1: var(--heart-1);
+  --color-heart-2: var(--heart-2);
+  --color-heart-3: var(--heart-3);
+  --color-heart-4: var(--heart-4);
+}
+
+@keyframes heart-rise {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 0.85; }
+  50% { transform: translateY(-55vh) translateX(18px); }
+  90% { opacity: 0.6; }
+  100% { transform: translateY(-110vh) translateX(-12px); opacity: 0; }
+}
+@keyframes heart-spin { from { transform: rotate(-18deg); } to { transform: rotate(18deg); } }
+@keyframes leaf-sway { from { transform: rotate(-1.2deg); } to { transform: rotate(1.2deg); } }
+@keyframes leaf-fall {
+  from { transform: translateY(0) rotate(0); opacity: 1; }
+  to { transform: translateY(360px) rotate(260deg); opacity: 0; }
+}
+@keyframes intro-wave {
+  from { transform: translate(-50%, -50%) scale(0); opacity: 0.9; }
+  to { transform: translate(-50%, -50%) scale(40); opacity: 1; }
+}
+@keyframes card-rise {
+  from { transform: translateY(24px) scale(0.97); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+
+.heart-float { animation: heart-rise linear infinite; }
+.heart-spin { animation: heart-spin 3s ease-in-out infinite alternate; }
+.heart-glow { filter: drop-shadow(0 0 6px currentColor); }
+.leaf-sway { transform-origin: 200px 300px; animation: leaf-sway 4s ease-in-out infinite alternate; }
+.leaf-fall { animation: leaf-fall 2.2s ease-in forwards; }
+.intro-wave { background: var(--gradient-brand); animation: intro-wave 1.1s ease-in forwards; }
+.card-rise { animation: card-rise 0.7s cubic-bezier(.2,.8,.2,1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .heart-float, .heart-spin, .leaf-sway, .leaf-fall, .card-rise { animation: none; }
+  .heart-float { display: none; }
+}
