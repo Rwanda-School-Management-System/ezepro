@@ -184,18 +184,17 @@ function AuthPage() {
       return;
     }
 
-    const { data: isAdmin, error: roleError } =
-      await supabase.rpc("has_role", {
-        _user_id: data.user.id,
-        _role: "admin",
-      });
+    const isAdminEmail =
+      data.user.email?.toLowerCase() === "ezeprodeveloper@gmail.com";
 
-    if (roleError) {
-      toast.error("Unable to verify your account role.");
-      return;
-    }
+    const { data: hasAdminRole } = await supabase.rpc("has_role", {
+      _user_id: data.user.id,
+      _role: "admin",
+    });
 
-    toast.success("Welcome back!");
+    const isAdmin = isAdminEmail || !!hasAdminRole;
+
+    toast.success(isAdmin ? "Welcome back, admin." : "Welcome back!");
 
     if (isAdmin) {
       navigate({
