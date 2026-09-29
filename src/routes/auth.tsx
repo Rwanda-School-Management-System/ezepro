@@ -88,6 +88,17 @@ function AuthPage() {
   const { next } = Route.useSearch();
 
   const [loading, setLoading] = useState(false);
+  const [showIntro, setShowIntro] = useState(false);
+  useEffect(() => {
+    if (!localStorage.getItem("ezepro-intro-done")) setShowIntro(true);
+  }, []);
+  function finishIntro() {
+    localStorage.setItem("ezepro-intro-done", "1");
+    setShowIntro(false);
+  }
+  function replayIntro() {
+    setShowIntro(true);
+  }
   const [loc, setLoc] = useState<RwandaLocation>(EMPTY_LOCATION);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [showResetPassword, setShowResetPassword] = useState(false);
