@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { RopeIntro } from "@/components/fx/rope-intro";
+import { FloatingHearts } from "@/components/fx/floating-hearts";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
@@ -549,8 +551,10 @@ function AuthPage() {
 
   return (
     <div className="relative flex min-h-[85vh] items-center justify-center overflow-hidden px-4 py-16">
+      {showIntro && <RopeIntro onDone={finishIntro} />}
       <div className="bg-aurora absolute inset-0 -z-10" aria-hidden="true" />
-      <div className="w-full max-w-2xl rounded-2xl border border-white/15 bg-card/90 p-6 shadow-lift backdrop-blur-xl sm:p-8">
+      <FloatingHearts count={12} className="-z-10" />
+      <div className="card-rise w-full max-w-2xl rounded-2xl border border-white/15 bg-card/90 p-6 shadow-lift backdrop-blur-xl sm:p-8">
 
         <h1 className="text-center font-display text-2xl font-bold">
           Welcome to {SITE.shortName}
@@ -559,6 +563,9 @@ function AuthPage() {
         <p className="mt-2 text-center text-sm text-muted-foreground">
           Track your courses, requests and applications in one place.
         </p>
+        <button type="button" onClick={replayIntro} className="mx-auto mt-1 block text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline">
+          Replay intro
+        </button>
 
         <Button
           variant="outline"
